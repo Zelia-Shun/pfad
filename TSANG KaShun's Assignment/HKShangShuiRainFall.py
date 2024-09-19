@@ -8,18 +8,18 @@ import csv
 data = []
 
 
-with open('daily_HKShangShui_RF_2024.csv', newline='', encoding='UTF') as csvfile:
+with open('daily_HKShangShui_RF_2024.csv', newline='', encoding='UTF8') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
-        print(row[1])
-        year = float(row[2])
-        month = float(row[3])
-        day = float(row[1])
+        print(row[0])
+        year = int(row[0])
+        month = int(row[1])
+        day = int(row[2])
         date = datetime.datetime(year, month, day)
         if row[3] == "Trace":
-            rainfall = 1.
+            rainfall = 0.
         else:
-            rainfall = float(row[4])
+            rainfall = float(row[3])
         data.append((date, rainfall))
         print(f'{date} -- {rainfall}')
 
