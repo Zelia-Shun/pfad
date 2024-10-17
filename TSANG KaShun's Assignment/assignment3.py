@@ -18,7 +18,7 @@ if "audios" not in st.session_state:
 
 if prompt := st.text_input("Prompt"):
     with st.spinner("Generating..."):
-        audios = st.session_state["pipeline"](prompt, num_inference_steps=8, guidance_scale=2, num_audios_per_prompt=1).audios
+        audios = st.session_state["pipeline"](prompt, num_inference_steps=10, audio_length_in_s=5.0).audios[0]
         print(audios)
         for audio in audios:
             st.session_state["audios"].append(audio)
