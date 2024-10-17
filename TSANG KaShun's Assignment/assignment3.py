@@ -4,25 +4,13 @@ import torch
 from diffusers import AudioLDMPipeline, LCMScheduler
 
 if "pipeline" not in st.session_state:
-    #model name here
+    # load model
     model = 'cvssp/audioldm-s-full-v2'
-    pipe = AudioLDMPipeline.from_pretrained(model, torch_dtype=torch.float16)
-    # pipe = AutoPipelineForText2Image.from_pretrained(model, torch_dtype=torch.float16)
+    pipe = AudioLDMPipeline.from_pretrained(model, torch_dtype=torch.float32)
     pipe.to("cuda")
-    pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
-    st.session_state["pipeline"] = pipe
 
-if "audios" not in st.session_state:
-    st.session_state["audios"] = []
-
-
+# generate audio with interface
 if prompt := st.text_input("Prompt"):
     with st.spinner("Generating..."):
-        audios = st.session_state["pipeline"](prompt, num_inference_steps=10, audio_length_in_s=5.0).audios[0]
-        print(audios)
-        for audio in audios:
-            st.session_state["audios"].append(audio)
-
-#TODO: if change line 16
-for audio in st.session_state["audios"][::-1]:
-    st.audio(audio)
+        audio = pipe(prompt, num_inference_steps=10, audio_length_in_s=5.0).audios[0]
+        st.audio(data=audio, sample_rate=16000, autoplay=True)

@@ -1,0 +1,13 @@
+name: pfad
+channels:
+  - defaults
+dependencies:
+  - pip
+  - python=3.10
+  - torchaudio==2.1.0
+  - torchvision==0.16.0
+  - pytorch-cuda=11.8
+  - pytorch==2.1.0
+  - pip:
+    - streamlit
+    - diffusers
